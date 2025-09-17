@@ -20,6 +20,7 @@ class CronetAdapter implements HttpClientAdapter {
     try {
       client = CronetClient.fromCronetEngine(
         engine ?? CronetEngine.build(),
+        closeEngine: closeEngine,
       );
     } catch (error, stackTrace) {
       log(
