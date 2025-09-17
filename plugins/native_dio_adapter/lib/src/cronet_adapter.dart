@@ -1,7 +1,10 @@
+import 'dart:developer';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:cronet_http/cronet_http.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'conversion_layer_adapter.dart';
 
 /// A [HttpClientAdapter] for Dio which delegates HTTP requests
@@ -11,13 +14,27 @@ class CronetAdapter implements HttpClientAdapter {
   CronetAdapter(
     CronetEngine? engine, {
     bool closeEngine = true,
-  }) : _conversionLayer = ConversionLayerAdapter(
-          engine == null
-              ? CronetClient.defaultCronetEngine()
-              : CronetClient.fromCronetEngine(engine, closeEngine: closeEngine),
-        );
+  }) {
+    Client? client;
 
-  final ConversionLayerAdapter _conversionLayer;
+    try {
+      client = engine == null
+          ? CronetClient.defaultCronetEngine()
+          : CronetClient.fromCronetEngine(engine, closeEngine: closeEngine);
+    } catch (error, stackTrace) {
+      log(
+        'Failed to create CronetClient, falling back to IOClient',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      
+      client = IOClient();
+    }
+
+    _conversionLayer = ConversionLayerAdapter(client);
+  }
+
+  late final ConversionLayerAdapter _conversionLayer;
 
   /// The underlying conversion layer adapter.
   ConversionLayerAdapter get adapter => _conversionLayer;
