@@ -19,9 +19,8 @@ class CronetAdapter implements HttpClientAdapter {
     Client? client;
 
     try {
-      client = engine == null
-          ? CronetClient.defaultCronetEngine()
-          : CronetClient.fromCronetEngine(engine, closeEngine: closeEngine);
+      final engine = CronetEngine.build();
+      client = CronetClient.fromCronetEngine(engine);
     } catch (error, stackTrace) {
       log(
         'Failed to create CronetClient, falling back to IOClient',
