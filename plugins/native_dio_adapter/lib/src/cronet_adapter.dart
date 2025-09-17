@@ -15,12 +15,12 @@ class CronetAdapter implements HttpClientAdapter {
     CronetEngine? engine, {
     bool closeEngine = true,
   }) {
-    log('test 123');
     Client? client;
 
     try {
-      final engine = CronetEngine.build();
-      client = CronetClient.fromCronetEngine(engine);
+      client = CronetClient.fromCronetEngine(
+        engine ?? CronetEngine.build(),
+      );
     } catch (error, stackTrace) {
       log(
         'Failed to create CronetClient, falling back to IOClient',
