@@ -1,5 +1,6 @@
 name: native_dio_adapter
 version: 1.5.0
+publish_to: "none"
 
 description: A client for dio which makes use of cupertino_http and cronet_http to delegate HTTP requests to the native platform.
 topics:
@@ -20,7 +21,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  dio: ^5.4.0
+  dio:
+    path: ../../dio
   cupertino_http: ^2.3.0
   cronet_http: ^1.5.0
   http: ^1.5.0

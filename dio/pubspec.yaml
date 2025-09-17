@@ -1,5 +1,6 @@
 name: dio
 version: 5.9.0
+publish_to: "none"
 
 description: |
   A powerful HTTP networking package,
@@ -27,7 +28,8 @@ dependencies:
   mime: '>=1.0.0 <3.0.0'
   path: ^1.8.0
 
-  dio_web_adapter: '>=1.1.0 <3.0.0'
+  dio_web_adapter:
+    path: ../plugins/web_adapter
 
 dev_dependencies:
   lints: any
