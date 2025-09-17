@@ -15,6 +15,7 @@ class CronetAdapter implements HttpClientAdapter {
     CronetEngine? engine, {
     bool closeEngine = true,
   }) {
+    log('test 123');
     Client? client;
 
     try {
@@ -27,7 +28,7 @@ class CronetAdapter implements HttpClientAdapter {
         error: error,
         stackTrace: stackTrace,
       );
-      
+
       client = IOClient();
     }
 
