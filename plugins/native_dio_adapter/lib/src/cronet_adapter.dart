@@ -14,13 +14,19 @@ class CronetAdapter implements HttpClientAdapter {
   CronetAdapter(
     CronetEngine? engine, {
     bool closeEngine = true,
-  }) {
-    Client? client;
+  })  : _engine = engine,
+        _closeEngine = closeEngine;
+
+  final CronetEngine? _engine;
+  final bool _closeEngine;
+
+  late final ConversionLayerAdapter _conversionLayer = () {
+    Client client;
 
     try {
       client = CronetClient.fromCronetEngine(
-        engine ?? CronetEngine.build(),
-        closeEngine: closeEngine,
+        _engine ?? CronetEngine.build(),
+        closeEngine: _closeEngine,
       );
     } catch (error, stackTrace) {
       log(
@@ -32,13 +38,8 @@ class CronetAdapter implements HttpClientAdapter {
       client = IOClient();
     }
 
-    _conversionLayer = ConversionLayerAdapter(client);
-  }
-
-  late final ConversionLayerAdapter _conversionLayer;
-
-  /// The underlying conversion layer adapter.
-  ConversionLayerAdapter get adapter => _conversionLayer;
+    return ConversionLayerAdapter(client);
+  }();
 
   @override
   void close({bool force = false}) => _conversionLayer.close(force: force);
